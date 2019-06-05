@@ -2,15 +2,10 @@
 const express = require('express');
 const helmet = require('helmet');
 const knex = require('knex');
+const knexConfig = require('./knexfile');
 
-const knexConfig = {
-  client: 'sqlite3',
-  connection: {
-    filename: './data/rolex.db3',
-  },
-  useNullAsDefault: true, // needed for sqlite
-};
-const db = knex(knexConfig);
+const db = knex(knexConfig.development);
+
 
 const server = express();
 
@@ -76,7 +71,7 @@ server.put('/api/roles/:id', async (req, res) => {
     } else {
       res.status(404).json({ message: 'Records not found' });
     }
-  } catch (error) {}
+  } catch (error) { }
 });
 
 // remove roles (inactivate the role)
@@ -91,7 +86,7 @@ server.delete('/api/roles/:id', async (req, res) => {
     } else {
       res.status(404).json({ message: 'Records not found' });
     }
-  } catch (error) {}
+  } catch (error) { }
 });
 
 const port = process.env.PORT || 5000;
